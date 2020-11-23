@@ -1,0 +1,20 @@
+# 使用命令白名单
+command-whitelist:
+  # 启用
+  enable: true
+  # 阻止后发送的消息
+  blocked-message: '&cNot Command.'
+  # 列表 (&是Yaml的锚点符)
+  list: &cmdlist
+    - hehe
+    - haha
+    - help
+
+# Tab补全白名单
+tab-complete-whitelist:
+  # 启用
+  enable: true
+  # 使用ProtocolLib(拦截数据包) 1.13以下必须开启
+  protocol-lib: true
+  # 列表 (与命令白名单相同)
+  list: *cmdlist
