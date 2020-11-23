@@ -1,11 +1,14 @@
 package pro.sandiao.plugin.commandwhitelist;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,12 +25,16 @@ public class Main extends JavaPlugin {
     private CommandListener commandListener;
     private TabCompleteListener tabCompleteListener;
     private PluginCommand command;
+    private File groupConfigFile;
+    private FileConfiguration groupConfig;
     private boolean isHighVersion = true;
     private boolean hasProtocolLib = false;
 
     @Override
     public void onEnable() {
         instance = this;
+
+        groupConfigFile = new File(getDataFolder(), "group.yml");
 
         saveDefaultConfig();
         try {
@@ -91,6 +98,24 @@ public class Main extends JavaPlugin {
 
     }
 
+    @Override
+    public void saveDefaultConfig() {
+        super.saveDefaultConfig();
+        if (!groupConfigFile.exists()) {
+            saveResource("group.yml", false);
+        }
+    }
+
+    @Override
+    public void reloadConfig() {
+        super.reloadConfig();
+        groupConfig = YamlConfiguration.loadConfiguration(groupConfigFile);
+    }
+
+    public FileConfiguration getGroupConfig() {
+        return groupConfig;
+    }
+
     /**
      * 重载插件
      * 
@@ -101,6 +126,7 @@ public class Main extends JavaPlugin {
         saveDefaultConfig();
         reloadConfig();
         whitelistManager.loadWhitelistByConfigFile(getConfig());
+        whitelistManager.loadGroupByConfigFile(getGroupConfig());
         sender.sendMessage("[CommandWhitelis] §aPlugin reload success.");
     }
 

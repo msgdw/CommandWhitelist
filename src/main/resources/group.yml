@@ -1,0 +1,17 @@
+# 分组
+# 给予玩家权限 commandwhitelist.group.command.<组名> 即可给予玩家该组的命令白名单
+# 给予玩家权限 commandwhitelist.group.tabcomplete.<组名> 即可给予玩家该组的Tab补全白名单
+group:
+  # 用户组
+  user:
+    - abcd
+    - efgh
+    - hizj
+  # 会员组
+  vip:
+    - fly
+    - heal
+  # 管理组
+  admin:
+    - plugins
+    - about

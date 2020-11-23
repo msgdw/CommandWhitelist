@@ -1,22 +1,35 @@
 package pro.sandiao.plugin.commandwhitelist.manager;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 
+import pro.sandiao.plugin.commandwhitelist.Main;
+
 public class WhitelistManager {
 
     public static final String COMMAND_WHITELIST_PERMISSION = "commandwhitelist.allow.command";
     public static final String TAB_COMPLETE_WHITELIST_PERMISSION = "commandwhitelist.allow.tabcomplete";
+    public static final String COMMAND_GROUP_PERMISSION = "commandwhitelist.group.command";
+    public static final String TAB_COMPLETE_GROUP_PERMISSION = "commandwhitelist.group.tabcomplete";
 
     private List<String> commandWhitelist, tabCompleteWhitelist = commandWhitelist = new ArrayList<>();
+    private Map<String, List<String>> groupMap = new HashMap<>();
 
     private WhitelistManager(Plugin plugin) {
         loadWhitelistByConfigFile(plugin.getConfig());
+        loadGroupByConfigFile(((Main) plugin).getGroupConfig());
     }
 
     /**
@@ -30,6 +43,23 @@ public class WhitelistManager {
 
         tabCompleteWhitelist.clear();
         config.getStringList("tab-complete-whitelist.list").forEach(tabCompleteWhitelist::add);
+    }
+
+    /**
+     * 从配种文件中加载组信息
+     * 
+     * @param config 配置文件
+     */
+    public void loadGroupByConfigFile(FileConfiguration config) {
+        groupMap.clear();
+        ConfigurationSection groupConfig = config.getConfigurationSection("group");
+        for (String string : groupConfig.getKeys(false)) {
+            groupMap.put(string, groupConfig.getStringList(string));
+        }
+    }
+
+    public List<String> getGroupList(String group) {
+        return groupMap.get(group);
     }
 
     /**
@@ -51,29 +81,20 @@ public class WhitelistManager {
     }
 
     /**
-     * 获取玩家的白名单
-     * 
-     * @param player     玩家
-     * @param premission 权限
-     * @param newList    新的集合
-     * @return 玩家白名单
-     */
-    private List<String> getPlayerWhitelist(Player player, String premission, List<String> newList) {
-        for (PermissionAttachmentInfo premissionInfo : player.getEffectivePermissions()) {
-            if (premissionInfo.getPermission().toLowerCase().startsWith(premission + "."))
-                newList.add(premissionInfo.getPermission().substring(premission.length() + 1));
-        }
-        return newList;
-    }
-
-    /**
      * 获取单个玩家的命令白名单
      * 
      * @param player 玩家
      * @return 白名单
      */
-    public List<String> getPlayerCommandWhitelist(Player player) {
-        return getPlayerWhitelist(player, COMMAND_WHITELIST_PERMISSION, new ArrayList<>(getCommandWhitelist()));
+    public Collection<String> getPlayerCommandWhitelist(Player player) {
+        Set<String> newList = new HashSet<>(getCommandWhitelist());
+        for (PermissionAttachmentInfo premissionInfo : player.getEffectivePermissions())
+            if (premissionInfo.getPermission().toLowerCase().startsWith(COMMAND_WHITELIST_PERMISSION + "."))
+                newList.add(premissionInfo.getPermission().substring(COMMAND_WHITELIST_PERMISSION.length() + 1));
+        for (Entry<String, List<String>> groupEntry : groupMap.entrySet())
+            if (player.hasPermission(COMMAND_GROUP_PERMISSION + "." + groupEntry.getKey()))
+                newList.addAll(groupEntry.getValue());
+        return newList;
     }
 
     /**
@@ -82,9 +103,15 @@ public class WhitelistManager {
      * @param player 玩家
      * @return 白名单
      */
-    public List<String> getPlayerTabCompleteWhitelist(Player player) {
-        return getPlayerWhitelist(player, TAB_COMPLETE_WHITELIST_PERMISSION,
-                new ArrayList<>(getTabCompleteWhitelist()));
+    public Collection<String> getPlayerTabCompleteWhitelist(Player player) {
+        Set<String> newList = new HashSet<>(getCommandWhitelist());
+        for (PermissionAttachmentInfo premissionInfo : player.getEffectivePermissions())
+            if (premissionInfo.getPermission().toLowerCase().startsWith(TAB_COMPLETE_WHITELIST_PERMISSION + "."))
+                newList.add(premissionInfo.getPermission().substring(TAB_COMPLETE_WHITELIST_PERMISSION.length() + 1));
+        for (Entry<String, List<String>> groupEntry : groupMap.entrySet())
+            if (player.hasPermission(TAB_COMPLETE_GROUP_PERMISSION + "." + groupEntry.getKey()))
+                newList.addAll(groupEntry.getValue());
+        return newList;
     }
 
     /**
@@ -97,7 +124,13 @@ public class WhitelistManager {
         if (player.hasPermission(COMMAND_WHITELIST_PERMISSION)
                 || player.hasPermission(COMMAND_WHITELIST_PERMISSION + "." + command))
             return true;
-        return getCommandWhitelist().contains(command);
+        if (getCommandWhitelist().contains(command))
+            return true;
+        for (Entry<String, List<String>> groupEntry : groupMap.entrySet())
+            if (player.hasPermission(COMMAND_GROUP_PERMISSION + "." + groupEntry.getKey()))
+                if (groupEntry.getValue().contains(command))
+                    return true;
+        return false;
     }
 
     /**
@@ -110,6 +143,12 @@ public class WhitelistManager {
         if (player.hasPermission(TAB_COMPLETE_WHITELIST_PERMISSION)
                 || player.hasPermission(TAB_COMPLETE_WHITELIST_PERMISSION + "." + command))
             return true;
-        return getTabCompleteWhitelist().contains(command);
+        if (getTabCompleteWhitelist().contains(command))
+            return true;
+        for (Entry<String, List<String>> groupEntry : groupMap.entrySet())
+            if (player.hasPermission(TAB_COMPLETE_GROUP_PERMISSION + "." + groupEntry.getKey()))
+                if (groupEntry.getValue().contains(command))
+                    return true;
+        return false;
     }
 }

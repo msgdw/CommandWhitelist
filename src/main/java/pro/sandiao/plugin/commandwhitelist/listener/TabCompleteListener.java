@@ -1,6 +1,6 @@
 package pro.sandiao.plugin.commandwhitelist.listener;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -40,7 +40,7 @@ public class TabCompleteListener implements Listener {
         }
 
         event.getCommands().clear();
-        List<String> newCmdList = Main.getWhitelistManager().getPlayerTabCompleteWhitelist(event.getPlayer());
+        Collection<String> newCmdList = Main.getWhitelistManager().getPlayerTabCompleteWhitelist(event.getPlayer());
         event.getCommands().addAll(newCmdList);
     }
 }
