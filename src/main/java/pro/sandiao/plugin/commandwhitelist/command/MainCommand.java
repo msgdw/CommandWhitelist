@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -69,9 +70,8 @@ public class MainCommand implements CommandExecutor, TabCompleter {
                 } else {
                     String permissionMessage = command.getPermissionMessage();
                     if (!permissionMessage.isEmpty())
-                        for (String line : permissionMessage.replace("<permission>", permission).split("\n")) {
+                        for (String line : permissionMessage.replace("<permission>", permission).split("\n"))
                             sender.sendMessage(line);
-                        }
                 }
 
                 return true;
@@ -83,7 +83,13 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return new ArrayList<>(0);
+        List<String> completes = new ArrayList<>();
+        if (args.length == 1) {
+            for (Entry<String, Method> entry : subCommandMap.entrySet())
+                completes.add(entry.getKey());
+            return completes.stream().filter(str -> str.startsWith(args[0])).collect(Collectors.toList());
+        }
+        return completes;
     }
 
     @SubCommand(value = "reload", permission = "commandwhitelist.command.reload", usage = "重载插件")
@@ -92,7 +98,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     }
 
     @SubCommand(value = "help", permission = "commandwhitelist.command.help", usage = "查看命令帮助")
-    private void onHelpCommand(CommandSender sender, Command command, String label) {
+    private void onHelpCommand(CommandSender sender, String label) {
         List<String> helpList = new ArrayList<>();
         for (Entry<String, Method> entry : subCommandMap.entrySet()) {
             SubCommand subCommand = entry.getValue().getAnnotation(SubCommand.class);
