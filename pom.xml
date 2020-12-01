@@ -4,7 +4,7 @@
 
     <groupId>pro.sandiao.plugin</groupId>
     <artifactId>CommandWhitelist</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <packaging>jar</packaging>
 
     <name>CommandWhitelist</name>
@@ -18,7 +18,12 @@
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
+		</repository>
+		<!-- NMS的Maven仓库 -->
+		<repository>
+			<id>nms-repo</id>
+            <url>https://repo.codemc.io/repository/nms/</url>
+		</repository>
         <!-- placeholderapi的Maven仓库 -->
 		<repository>
 			<id>placeholderapi</id>
@@ -38,6 +43,12 @@
 			<artifactId>spigot-api</artifactId>
 			<version>1.14.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
+		</dependency>
+		<!-- NMS -->
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot</artifactId>
+			<version>1.14.4-R0.1-20191224.232152-15</version>
 		</dependency>
 		<!-- PlaceholderAPI -->
 		<dependency>

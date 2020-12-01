@@ -6,6 +6,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 
 import org.bukkit.plugin.Plugin;
 
+import pro.sandiao.plugin.commandwhitelist.listener.adapter.NewTabCompletePacketAdapter;
 import pro.sandiao.plugin.commandwhitelist.listener.adapter.TabCompletePacketAdapter;
 
 public class TabCompletePackageListener {
@@ -30,7 +31,7 @@ public class TabCompletePackageListener {
      */
     public void registerListener(boolean isHighVersion) {
         if (isHighVersion) {
-            packetAdapter = new TabCompletePacketAdapter(plugin);
+            packetAdapter = new NewTabCompletePacketAdapter(plugin);
         } else {
             packetAdapter = new TabCompletePacketAdapter(plugin);
         }
