@@ -125,3 +125,5 @@ v1.1.1:
 \- 新增* 分组模式 方便配置不用再给一大堆权限了  
 v1.1.2:  
 \- 修复 跨版本客户端包括(Minecraft Console Client, ProtocolSupport, PickaxeChat)拦截补全的问题  
+v1.1.3:
+\- 修复 命令白名单与补全白名单相同的问题

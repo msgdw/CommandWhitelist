@@ -24,7 +24,9 @@ public class WhitelistManager {
     public static final String COMMAND_GROUP_PERMISSION = "commandwhitelist.group.command";
     public static final String TAB_COMPLETE_GROUP_PERMISSION = "commandwhitelist.group.tabcomplete";
 
-    private List<String> commandWhitelist, tabCompleteWhitelist = commandWhitelist = new ArrayList<>();
+    private List<String> commandWhitelist = new ArrayList<>();
+    private List<String> tabCompleteWhitelist = new ArrayList<>();
+    
     private Map<String, List<String>> groupMap = new HashMap<>();
 
     private WhitelistManager(Plugin plugin) {
