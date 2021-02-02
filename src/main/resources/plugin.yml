@@ -1,7 +1,7 @@
 main: pro.sandiao.plugin.commandwhitelist.Main
 
 name: CommandWhitelist
-version: 1.1.2
+version: 1.1.3
 api-version: '1.13'
 author: msg_dw
 description: '阻止使用白名单以外的命令'
