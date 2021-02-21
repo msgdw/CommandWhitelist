@@ -1,7 +1,7 @@
 main: pro.sandiao.plugin.commandwhitelist.Main
 
 name: CommandWhitelist
-version: 1.1.3
+version: 1.1.4
 api-version: '1.13'
 author: msg_dw
 description: '阻止使用白名单以外的命令'
@@ -29,22 +29,22 @@ permissions:
     default: false
   commandwhitelist.allow.*:
     description: '绕过所有白名单'
-    default: op
+    default: false
     children:
       commandwhitelist.allow.command: true
       commandwhitelist.allow.tabcomplete: true
   commandwhitelist.command:
     description: '允许使用CommandWhitelist插件的命令'
-    default: false
+    default: op
   commandwhitelist.command.reload:
     description: '允许使用CommandWhitelist插件的重载命令'
-    default: false
+    default: op
   commandwhitelist.command.help:
     description: '允许使用CommandWhitelist插件的帮助命令'
-    default: true
+    default: op
   commandwhitelist.command.*:
     description: '允许使用CommandWhitelist插件的所有命令'
-    default: false
+    default: op
     children:
       commandwhitelist.command.reload: true
       commandwhitelist.command.help: true
