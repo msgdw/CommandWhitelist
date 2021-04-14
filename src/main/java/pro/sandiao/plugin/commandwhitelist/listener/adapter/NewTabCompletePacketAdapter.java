@@ -6,9 +6,7 @@ import java.util.List;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
-import com.comphenix.protocol.events.PacketEvent;
 import com.mojang.brigadier.context.StringRange;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;
@@ -17,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import pro.sandiao.plugin.commandwhitelist.Main;
-import pro.sandiao.plugin.commandwhitelist.manager.WhitelistManager;
 
 public class NewTabCompletePacketAdapter extends TabCompletePacketAdapter {
 

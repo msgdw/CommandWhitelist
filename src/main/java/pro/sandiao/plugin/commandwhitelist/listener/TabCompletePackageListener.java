@@ -2,7 +2,6 @@ package pro.sandiao.plugin.commandwhitelist.listener;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketAdapter;
 
 import org.bukkit.plugin.Plugin;
 
