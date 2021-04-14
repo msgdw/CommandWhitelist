@@ -7,21 +7,22 @@ import com.comphenix.protocol.events.PacketAdapter;
 import org.bukkit.plugin.Plugin;
 
 import pro.sandiao.plugin.commandwhitelist.listener.adapter.NewTabCompletePacketAdapter;
+import pro.sandiao.plugin.commandwhitelist.listener.adapter.OldTabCompletePacketAdapter;
 import pro.sandiao.plugin.commandwhitelist.listener.adapter.TabCompletePacketAdapter;
 
 public class TabCompletePackageListener {
 
     private Plugin plugin;
     private ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
-    private PacketAdapter packetAdapter;
+    private TabCompletePacketAdapter tabCompletePacketAdapter;
 
     public TabCompletePackageListener(Plugin plugin) {
         this.plugin = plugin;
     }
 
-    public void registerListener() {
-        if (packetAdapter != null)
-            protocolManager.removePacketListener(packetAdapter);
+    public void unregisterListener() {
+        if (tabCompletePacketAdapter != null)
+            protocolManager.removePacketListener(tabCompletePacketAdapter);
     }
 
     /**
@@ -31,11 +32,15 @@ public class TabCompletePackageListener {
      */
     public void registerListener(boolean isHighVersion) {
         if (isHighVersion) {
-            packetAdapter = new NewTabCompletePacketAdapter(plugin);
+            tabCompletePacketAdapter = new NewTabCompletePacketAdapter(plugin);
         } else {
-            packetAdapter = new TabCompletePacketAdapter(plugin);
+            tabCompletePacketAdapter = new OldTabCompletePacketAdapter(plugin);
         }
 
-        protocolManager.addPacketListener(packetAdapter);
+        protocolManager.addPacketListener(tabCompletePacketAdapter);
+    }
+
+    public TabCompletePacketAdapter getTabCompletePacketAdapter() {
+        return tabCompletePacketAdapter;
     }
 }

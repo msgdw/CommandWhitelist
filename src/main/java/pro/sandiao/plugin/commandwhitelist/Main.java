@@ -1,6 +1,7 @@
 package pro.sandiao.plugin.commandwhitelist;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Set;
 
@@ -24,6 +25,7 @@ public class Main extends JavaPlugin {
     private static WhitelistManager whitelistManager;
     private CommandListener commandListener;
     private TabCompleteListener tabCompleteListener;
+    private TabCompletePackageListener tabCompletePackageListener;
     private PluginCommand command;
     private File groupConfigFile;
     private FileConfiguration groupConfig;
@@ -80,7 +82,8 @@ public class Main extends JavaPlugin {
                 if (isHighVersion)
                     tabCompleteListener.registerListener();
                 if (hasProtocolLib) {
-                    new TabCompletePackageListener(this).registerListener(isHighVersion);
+                    tabCompletePackageListener = new TabCompletePackageListener(this);
+                    tabCompletePackageListener.registerListener(isHighVersion);
                 } else {
                     getLogger().warning("We not found the ProtocolLib.");
                 }
@@ -116,6 +119,14 @@ public class Main extends JavaPlugin {
         return groupConfig;
     }
 
+    public void saveGroupConfig() {
+        try {
+            getGroupConfig().save(this.groupConfigFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 重载插件
      * 
@@ -127,6 +138,9 @@ public class Main extends JavaPlugin {
         reloadConfig();
         whitelistManager.loadWhitelistByConfigFile(getConfig());
         whitelistManager.loadGroupByConfigFile(getGroupConfig());
+        if (tabCompletePackageListener != null) {
+            Bukkit.getOnlinePlayers().forEach(tabCompletePackageListener.getTabCompletePacketAdapter()::sendPacket);
+        }
         sender.sendMessage("[CommandWhitelis] §aPlugin reload success.");
     }
 

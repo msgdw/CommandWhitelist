@@ -27,4 +27,9 @@ public @interface SubCommand {
      * 使用方法
      */
     String usage() default "";
+
+    /**
+     * 顺序
+     */
+    int order() default 0;
 }
