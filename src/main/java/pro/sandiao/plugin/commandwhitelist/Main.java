@@ -67,7 +67,7 @@ public class Main extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage("[CommandWhitelis] §aBlocking command turned on.");
         }
 
-        int i = Integer.valueOf(version.split("_")[1]);
+        int i = Integer.parseInt(version.split("_")[1]);
         if (version.startsWith("v1") && i < 13) {
             isHighVersion = false;
         } else {
@@ -138,10 +138,17 @@ public class Main extends JavaPlugin {
         reloadConfig();
         whitelistManager.loadWhitelistByConfigFile(getConfig());
         whitelistManager.loadGroupByConfigFile(getGroupConfig());
-        if (tabCompletePackageListener != null) {
-            Bukkit.getOnlinePlayers().forEach(tabCompletePackageListener.getTabCompletePacketAdapter()::sendPacket);
-        }
+        updateCompleteList();
         sender.sendMessage("[CommandWhitelis] §aPlugin reload success.");
+    }
+
+    /**
+     * 1.13+ 更新补全列表
+     */
+    public void updateCompleteList() {
+        if (tabCompletePackageListener != null) {
+            tabCompletePackageListener.updateCompleteList();
+        }
     }
 
     /**

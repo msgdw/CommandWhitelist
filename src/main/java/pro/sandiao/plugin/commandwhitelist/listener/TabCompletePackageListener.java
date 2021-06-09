@@ -3,6 +3,8 @@ package pro.sandiao.plugin.commandwhitelist.listener;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import pro.sandiao.plugin.commandwhitelist.listener.adapter.NewTabCompletePacketAdapter;
@@ -41,5 +43,19 @@ public class TabCompletePackageListener {
 
     public TabCompletePacketAdapter getTabCompletePacketAdapter() {
         return tabCompletePacketAdapter;
+    }
+
+    /**
+     * 更新补全列表
+     *
+     * 1.13+
+     */
+    public void updateCompleteList() {
+        if (tabCompletePacketAdapter instanceof NewTabCompletePacketAdapter) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                tabCompletePacketAdapter.sendPacket(player);
+                player.updateCommands();
+            }
+        }
     }
 }

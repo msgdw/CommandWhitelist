@@ -125,6 +125,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         config.set("command-whitelist.list", list);
         Main.getInstance().saveConfig();
         Main.getWhitelistManager().loadWhitelistByConfigFile(Main.getInstance().getConfig());
+        Main.getInstance().updateCompleteList();
         sender.sendMessage("成功向命令白名单内添加命令 " + args[1]);
     }
 
@@ -142,6 +143,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         config.set("tab-complete-whitelist.list", list);
         Main.getInstance().saveConfig();
         Main.getWhitelistManager().loadWhitelistByConfigFile(Main.getInstance().getConfig());
+        Main.getInstance().updateCompleteList();
         sender.sendMessage("成功向补全白名单内添加命令 " + args[1]);
     }
 
@@ -159,6 +161,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         config.set("group." + args[1], list);
         Main.getInstance().saveGroupConfig();
         Main.getWhitelistManager().loadGroupByConfigFile(Main.getInstance().getGroupConfig());
+        Main.getInstance().updateCompleteList();
         sender.sendMessage("成功向组 " + args[1] + " 内添加命令 " + args[2]);
     }
 
@@ -179,6 +182,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         config.set("command-whitelist.list", list);
         Main.getInstance().saveConfig();
         Main.getWhitelistManager().loadWhitelistByConfigFile(Main.getInstance().getConfig());
+        Main.getInstance().updateCompleteList();
         sender.sendMessage("成功从命令白名单中移除命令 " + args[1]);
     }
 
@@ -199,6 +203,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         config.set("tab-complete-whitelist.list", list);
         Main.getInstance().saveConfig();
         Main.getWhitelistManager().loadWhitelistByConfigFile(Main.getInstance().getConfig());
+        Main.getInstance().updateCompleteList();
         sender.sendMessage("成功从补全白名单中移除命令 " + args[1]);
     }
 
@@ -219,6 +224,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         config.set("group." + args[1], list.isEmpty() ? null : list);
         Main.getInstance().saveGroupConfig();
         Main.getWhitelistManager().loadGroupByConfigFile(Main.getInstance().getGroupConfig());
+        Main.getInstance().updateCompleteList();
         sender.sendMessage("成功从组 " + args[1] + " 内移除命令 " + args[2]);
     }
 
