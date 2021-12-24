@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
@@ -13,6 +12,11 @@ import org.bukkit.plugin.Plugin;
 
 import pro.sandiao.plugin.commandwhitelist.Main;
 
+/**
+ * 旧版本的Tab补全数据包切面
+ *
+ * @see NewTabCompletePacketAdapter 新版本的Tab补全数据包切面
+ */
 public class OldTabCompletePacketAdapter extends TabCompletePacketAdapter {
 
     public OldTabCompletePacketAdapter(Plugin plugin) {

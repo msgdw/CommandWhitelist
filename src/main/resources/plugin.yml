@@ -24,10 +24,10 @@ commands:
 permissions:
   commandwhitelist.allow.command:
     description: '绕过使用命令白名单'
-    default: false
+    default: op
   commandwhitelist.allow.tabcomplete:
     description: '绕过Tab补全白名单'
-    default: false
+    default: op
   commandwhitelist.allow.*:
     description: '绕过所有白名单'
     default: false

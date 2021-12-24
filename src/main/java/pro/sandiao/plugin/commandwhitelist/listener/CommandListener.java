@@ -9,6 +9,9 @@ import org.bukkit.plugin.Plugin;
 import net.md_5.bungee.api.ChatColor;
 import pro.sandiao.plugin.commandwhitelist.Main;
 
+/**
+ * 命令监听器
+ */
 public class CommandListener implements Listener {
 
     private Plugin plugin;

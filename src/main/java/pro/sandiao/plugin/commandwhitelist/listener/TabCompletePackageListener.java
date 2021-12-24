@@ -11,6 +11,9 @@ import pro.sandiao.plugin.commandwhitelist.listener.adapter.NewTabCompletePacket
 import pro.sandiao.plugin.commandwhitelist.listener.adapter.OldTabCompletePacketAdapter;
 import pro.sandiao.plugin.commandwhitelist.listener.adapter.TabCompletePacketAdapter;
 
+/**
+ * Tab补全数据包监听器
+ */
 public class TabCompletePackageListener {
 
     private Plugin plugin;
@@ -21,6 +24,9 @@ public class TabCompletePackageListener {
         this.plugin = plugin;
     }
 
+    /**
+     * 注销监听器
+     */
     public void unregisterListener() {
         if (tabCompletePacketAdapter != null)
             protocolManager.removePacketListener(tabCompletePacketAdapter);
@@ -52,6 +58,7 @@ public class TabCompletePackageListener {
      */
     public void updateCompleteList() {
         if (tabCompletePacketAdapter instanceof NewTabCompletePacketAdapter) {
+            // 高版本要重新发包给客户端更新命令列表
             for (Player player : Bukkit.getOnlinePlayers()) {
                 tabCompletePacketAdapter.sendPacket(player);
                 player.updateCommands();

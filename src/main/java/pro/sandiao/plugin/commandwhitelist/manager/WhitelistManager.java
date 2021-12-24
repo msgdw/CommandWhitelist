@@ -17,6 +17,9 @@ import org.bukkit.plugin.Plugin;
 
 import pro.sandiao.plugin.commandwhitelist.Main;
 
+/**
+ * 白名单管理器
+ */
 public class WhitelistManager {
 
     public static final String COMMAND_WHITELIST_PERMISSION = "commandwhitelist.allow.command";
@@ -26,7 +29,7 @@ public class WhitelistManager {
 
     private List<String> commandWhitelist = new ArrayList<>();
     private List<String> tabCompleteWhitelist = new ArrayList<>();
-    
+
     private Map<String, List<String>> groupMap = new HashMap<>();
 
     private WhitelistManager(Plugin plugin) {
@@ -36,20 +39,20 @@ public class WhitelistManager {
 
     /**
      * 从配置文件中加载白名单
-     * 
+     *
      * @param config 配置文件
      */
     public void loadWhitelistByConfigFile(FileConfiguration config) {
         commandWhitelist.clear();
-        config.getStringList("command-whitelist.list").forEach(commandWhitelist::add);
+        commandWhitelist.addAll(config.getStringList("command-whitelist.list"));
 
         tabCompleteWhitelist.clear();
-        config.getStringList("tab-complete-whitelist.list").forEach(tabCompleteWhitelist::add);
+        tabCompleteWhitelist.addAll(config.getStringList("tab-complete-whitelist.list"));
     }
 
     /**
      * 从配种文件中加载组信息
-     * 
+     *
      * @param config 配置文件
      */
     public void loadGroupByConfigFile(FileConfiguration config) {
@@ -60,13 +63,19 @@ public class WhitelistManager {
         }
     }
 
+    /**
+     * 获取一个组的命令列表
+     *
+     * @param group 组名
+     * @return 命令列表
+     */
     public List<String> getGroupList(String group) {
         return groupMap.get(group);
     }
 
     /**
      * 获取命令白名单
-     * 
+     *
      * @return 命令白名单
      */
     public List<String> getCommandWhitelist() {
@@ -75,7 +84,7 @@ public class WhitelistManager {
 
     /**
      * 获取Tab补全白名单
-     * 
+     *
      * @return Tab补全白名单
      */
     public List<String> getTabCompleteWhitelist() {
@@ -84,7 +93,7 @@ public class WhitelistManager {
 
     /**
      * 获取单个玩家的命令白名单
-     * 
+     *
      * @param player 玩家
      * @return 白名单
      */
@@ -101,7 +110,7 @@ public class WhitelistManager {
 
     /**
      * 获取单个玩家的Tab补全白名单
-     * 
+     *
      * @param player 玩家
      * @return 白名单
      */
@@ -118,7 +127,7 @@ public class WhitelistManager {
 
     /**
      * 查找命令是否在玩家的命令白名单中
-     * 
+     *
      * @param player 玩家
      * @return 是否在白名单内
      */
@@ -137,7 +146,7 @@ public class WhitelistManager {
 
     /**
      * 查找命令是否在玩家的Tab补全白名单中
-     * 
+     *
      * @param player 玩家
      * @return 是否在白名单内
      */

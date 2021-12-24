@@ -16,6 +16,11 @@ import org.bukkit.plugin.Plugin;
 
 import pro.sandiao.plugin.commandwhitelist.Main;
 
+/**
+ * 新版本的Tab补全数据包切面
+ *
+ * @see OldTabCompletePacketAdapter 旧版本的Tab补全数据包切面
+ */
 public class NewTabCompletePacketAdapter extends TabCompletePacketAdapter {
 
     public NewTabCompletePacketAdapter(Plugin plugin) {

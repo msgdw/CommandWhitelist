@@ -11,6 +11,9 @@ import org.bukkit.plugin.Plugin;
 import pro.sandiao.plugin.commandwhitelist.Main;
 import pro.sandiao.plugin.commandwhitelist.manager.WhitelistManager;
 
+/**
+ * Tab补全监听器
+ */
 public class TabCompleteListener implements Listener {
 
     private Plugin plugin;

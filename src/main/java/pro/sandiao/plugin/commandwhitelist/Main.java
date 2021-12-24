@@ -48,7 +48,7 @@ public class Main extends JavaPlugin {
         }
 
         Set<String> commands = getDescription().getCommands().keySet();
-        if (commands != null && commands.size() == 1) {
+        if (commands.size() == 1) {
             command = getCommand(commands.toArray()[0].toString());
         }
 
