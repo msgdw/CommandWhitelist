@@ -22,8 +22,16 @@ public abstract class TabCompletePacketAdapter extends PacketAdapter {
 
     @Override
     public void onPacketReceiving(PacketEvent event) {
+        Player player = event.getPlayer();
+        String message;
         // 获取到输入框内容
-        String message = event.getPacket().getStrings().read(0);
+        try {
+            message = event.getPacket().getStrings().read(0);
+        } catch (UnsupportedOperationException e) {
+            plugin.getLogger().warning("无法处理玩家 " + player.getName() + " 的命令补全请求: " + e.getMessage());
+            event.setCancelled(true);
+            return;
+        }
 
         // 如果开头不是 / 就不是命令 不进行处理
         if (message.toCharArray()[0] != '/') {
@@ -31,7 +39,6 @@ public abstract class TabCompletePacketAdapter extends PacketAdapter {
         }
 
         // 如果玩家有 COMMAND_WHITELIST_PERMISSION 权限 则不进行处理 补全所有命令
-        Player player = event.getPlayer();
         if (event.getPlayer().hasPermission(WhitelistManager.COMMAND_WHITELIST_PERMISSION)) {
             return;
         }
